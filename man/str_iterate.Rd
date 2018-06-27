@@ -5,7 +5,8 @@
 \title{str_iterate}
 \usage{
 str_iterate(stringin, location = 1, bracket_count = 0, curlbrackets = 0,
-  singlespeech = 0, doublespeech = 0, comma_loc = c())
+  singlespeech = 0, doublespeech = 0, specialspeech = 0,
+  comma_loc = c())
 }
 \arguments{
 \item{stringin}{string to explore. Note that this is the only argument that should normally be provided}
@@ -19,6 +20,8 @@ str_iterate(stringin, location = 1, bracket_count = 0, curlbrackets = 0,
 \item{singlespeech}{number of open single speech marks}
 
 \item{doublespeech}{number of open double speech marks}
+
+\item{specialspeech}{number of open `` marks}
 
 \item{comma_loc}{vector containing the location of all commas}
 }
