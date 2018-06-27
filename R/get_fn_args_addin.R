@@ -66,11 +66,21 @@ str_iterate <- function(stringin,
   }
 
   #check to see if special characters open/close
-
-  bracket_count <- bracket_handler(cur_char, bracket_count, "(", ")")
-  curlbrackets  <- bracket_handler(cur_char, curlbrackets, "{", "}")
-  singlespeech <-  speech_handler(cur_char, singlespeech, "'")
-  doublespeech <-  speech_handler(cur_char, doublespeech, '"')
+  if (allchecks == 0 | bracket_count > 0 ){
+    bracket_count <- bracket_handler(cur_char, bracket_count, "(", ")")
+  }
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech
+  if (allchecks == 0 | curlbrackets  > 0 ){
+    curlbrackets  <- bracket_handler(cur_char, curlbrackets, "{", "}")
+  }
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech
+  if (allchecks == 0 | singlespeech  > 0 ){
+    singlespeech <-  speech_handler(cur_char, singlespeech, "'")
+  }
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech
+  if (allchecks == 0 | doublespeech > 0 ){
+    doublespeech <-  speech_handler(cur_char, doublespeech, '"')
+  }
 
   #iterate location and run again
 
