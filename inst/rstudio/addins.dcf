@@ -1,0 +1,4 @@
+Name: Get function arguments
+Description: Grabs arguments from a highlighted set of code (usually a function argument) and reads them into the console
+Binding: get_fn_args
+Interactive: false

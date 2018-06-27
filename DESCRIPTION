@@ -1,0 +1,11 @@
+Package: getfunctionargs
+Title: R studio add in to grab default arguments
+Version: 0.0.0.9000
+Authors@R: person("Kieran", "Martin", email = "kieran.martin@roche.com", role = c("aut", "cre"))
+Description: Highlight code with commas and interprets as ;. Intelligent, so can read whole vectors
+Depends: R (>= 3.4.4)
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Imports: rstudioapi
+RoxygenNote: 6.0.1
