@@ -23,7 +23,7 @@ test_that(
   "Correct output when no simple commas are present",{
     expect_null(str_iterate("nocommas"))
     expect_null(str_iterate(""))
-    expect_null(str_iterate("nocommas_here**£$!^&'@_-`¬/?:;}{()(())}}"))
+    expect_null(str_iterate("nocommas_here**£$!^&'@_-`¬/?:;}{()(())}}[][[]"))
   }
 )
 
@@ -32,6 +32,7 @@ test_that(
     expect_null(str_iterate("nocommas (some in here,, ,,d,,`` {and, here, ' and here' })"))
     expect_null(str_iterate("commas \",\" but also\' \\\""))
     expect_null(str_iterate("{(,),\",\", `,`,',',,{,{,{,{,}}}}}"))
+    expect_null(str_iterate("[,]"))
   }
 )
 test_that(
@@ -48,6 +49,10 @@ test_that(
       c(4, 41, 68),
       str_iterate("x=4, z = \" here is a sneaky ' person , \", y = ' now see, the issue', d =5")
       )
+    expect_equal(
+      c(4, 33),
+      str_iterate("x=4, y = data.frame(a=1,b=2)[,1], s =3")
+    )
   }
 )
 

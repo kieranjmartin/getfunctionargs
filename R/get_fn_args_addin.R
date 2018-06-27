@@ -32,6 +32,7 @@ get_fn_args <- function(string_select = NULL){
 #' @param location starting location to explore. Should normally be set to 1
 #' @param bracket_count number of open brackets
 #' @param curlbrackets  number of open curly brackets
+#' @param squarebreackets number of square brackets
 #' @param singlespeech number of open single speech marks
 #' @param doublespeech number of open double speech marks
 #' @param specialspeech number of open `` marks
@@ -44,10 +45,11 @@ str_iterate <- function(stringin,
                         singlespeech = 0,
                         doublespeech = 0,
                         specialspeech = 0,
+                        squarebrackets = 0,
                         comma_loc = c()){
 
   # check to see if anything is open currently
-  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
   #grab the current character
   cur_char <- substr(stringin, location, location)
 
@@ -64,34 +66,39 @@ str_iterate <- function(stringin,
   # handle escape characters
   if (cur_char == "\\"){
     location <- location + 2
-    return(str_iterate(stringin, location, bracket_count, curlbrackets, singlespeech, doublespeech, specialspeech, comma_loc))
+    return(str_iterate(stringin, location, bracket_count, curlbrackets, singlespeech, doublespeech, specialspeech, squarebrackets, comma_loc))
   }
 
   #check to see if special characters open/close
   if (allchecks == 0 | bracket_count > 0 ){
     bracket_count <- bracket_handler(cur_char, bracket_count, "(", ")")
   }
-  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
   if (allchecks == 0 | curlbrackets  > 0 ){
     curlbrackets  <- bracket_handler(cur_char, curlbrackets, "{", "}")
   }
-  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
   if (allchecks == 0 | singlespeech  > 0 ){
     singlespeech <-  speech_handler(cur_char, singlespeech, "'")
   }
-  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
   if (allchecks == 0 | doublespeech > 0 ){
     doublespeech <-  speech_handler(cur_char, doublespeech, '"')
   }
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
   if (allchecks == 0 | specialspeech > 0 ){
     specialspeech  <-  speech_handler(cur_char, specialspeech, '`')
+  }
+  allchecks <- bracket_count + curlbrackets + singlespeech + doublespeech + specialspeech + squarebrackets
+  if (allchecks == 0 | squarebrackets > 0 ){
+    squarebrackets <-  bracket_handler(cur_char, squarebrackets, "[", "]")
   }
 
   #iterate location and run again
 
   location <- location + 1
 
-  str_iterate(stringin, location, bracket_count, curlbrackets, singlespeech, doublespeech, specialspeech, comma_loc)
+  str_iterate(stringin, location, bracket_count, curlbrackets, singlespeech, doublespeech, specialspeech, squarebrackets, comma_loc)
 
 }
 
