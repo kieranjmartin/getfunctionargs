@@ -6,10 +6,12 @@
 #' Note that this works by looking for matching brackets and inverted commas
 #' If for some reason you have hanging commas and speech marks nested within each other this could cause issues!
 #' @param string_select String to be read and given to the console
-#' @return The console will run the provided string split by ; where commas are
+#' @param valid_only Will only output code which uses = or <-
+#' @param return_string If True, returns a string of arguments, otherwise outputs directly to console. False by default
+#' @return The console will run the provided string split by ; where commas are, or return the string if return_string = T
 #' @export
 #'
-get_fn_args <- function(string_select = NULL){
+get_fn_args <- function(string_select = NULL, valid_only = TRUE, return_string = FALSE){
   if (is.null(string_select)){
     string_select <- rstudioapi::getSourceEditorContext()$selection[[1]]$text
   }
@@ -20,7 +22,15 @@ get_fn_args <- function(string_select = NULL){
       substr(string_select, commas[rep_loc], commas[rep_loc]) <- ';'
     }
   }
+  if (valid_only){
+    string_select <- validate_code(string_select)
+  }
+  if (return_string){
+    return(string_select)
+  }
+
   rstudioapi::sendToConsole(string_select)
+
 }
 
 #' str_iterate
@@ -135,3 +145,14 @@ speech_handler <- function(curval, inval, speech){
   inval
 }
 
+#' validate_code
+#'
+#' Simple function which looks at code segments and sees if theres a definition
+#' That is, currently <-, = or assign.
+#' @param stringin A string with R code to be evaulated
+#' @return a string with invalid code excluded
+validate_code <- function(stringin){
+  splitstring <- strsplit(stringin, split = ";", fixed = TRUE)
+  validcode <- splitstring[[1]][grep("(<-)|=|(assign\\(.*\\))", splitstring[[1]])]
+  paste(validcode, collapse = ";")
+}

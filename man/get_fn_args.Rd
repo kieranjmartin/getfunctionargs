@@ -4,13 +4,18 @@
 \alias{get_fn_args}
 \title{get_fn_args}
 \usage{
-get_fn_args(string_select = NULL)
+get_fn_args(string_select = NULL, valid_only = TRUE,
+  return_string = FALSE)
 }
 \arguments{
 \item{string_select}{String to be read and given to the console}
+
+\item{valid_only}{Will only output code which uses = or <-}
+
+\item{return_string}{If True, returns a string of arguments, otherwise outputs directly to console. False by default}
 }
 \value{
-The console will run the provided string split by ; where commas are
+The console will run the provided string split by ; where commas are, or return the string if return_string = T
 }
 \description{
 This function takes a string of arguments as if they were written for a function
