@@ -17,7 +17,7 @@ You can also call the function directly with get_fn_args("x = 4, y = 7, z = 3")
 Use 
 
     devtools::install_git(
-      url = "https://github.roche.com/martik32/getfunctionargs.git",
+      url = "https://github.com/kieranjmartin/getfunctionargs.git",
     )
 
 
