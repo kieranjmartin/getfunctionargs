@@ -15,6 +15,9 @@ get_fn_args <- function(string_select = NULL, valid_only = TRUE, return_string =
   if (is.null(string_select)){
     string_select <- rstudioapi::getSourceEditorContext()$selection[[1]]$text
   }
+  # remove not needed arguments from start of code
+    string_select <- remove_open_brackets(string_select)
+
   # find all commas
   commas <- str_iterate(string_select)
   if (length(commas) > 0){
