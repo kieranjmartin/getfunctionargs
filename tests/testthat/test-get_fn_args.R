@@ -35,3 +35,14 @@ test_that("Argument valid_only works as intended",{
   expect_equal(get_fn_args("x<-4, z = list(1,2,3), a = matrix([]), d= 4, bad, remove", valid_only = FALSE, return_string = TRUE),
                "x<-4; z = list(1,2,3); a = matrix([]); d= 4; bad; remove")
 })
+
+
+
+test_that("Removes uneccessary parts",{
+  expect_equal(get_fn_args("  x<-4", return_string = TRUE),
+               "x<-4")
+  expect_equal(get_fn_args("{{ ((  x<-4; y = 5", return_string = TRUE),
+               "x<-4; y = 5")
+  expect_equal(get_fn_args("{{((  ({x<-4; y = 5; assign(xer, 56)", return_string = TRUE),
+               "x<-4; y = 5; assign(xer, 56)")
+})
